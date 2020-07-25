@@ -2,7 +2,7 @@
 
 Soteria is a Full stack django web application.
 
-### 🚀Running the app:
+### 🚀 Running the app:
 
 - Navigate the folder which contains requirements.txt in terminal
 - Execute the following code inside the terminal
@@ -33,7 +33,7 @@ The web app is rigorously documented and follow all the conventions of django. M
     ├── README.md
     └── requirements.txt
 
-### Contributors
+### 🤝 Contributors
 
 This is a project under Sigma Hacks 2020.
 Aditya Goyal, Turja Chowdhury, Roan Numa, Ankitha 
