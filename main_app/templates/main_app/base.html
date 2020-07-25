@@ -13,6 +13,11 @@
     <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     {% block import %}{% endblock %}
+    <script>
+        function showToast(message, duration) {
+            Materialize.toast(message, duration);
+        }
+    </script>
 </head>
 
 <body>
@@ -30,7 +35,11 @@
         </div>
     </nav>
     <div class="container">
-        {% if message %} {{message}} {% endif %} {% block content %} {% endblock %}
+        {% if message %}
+        <div style="text-align: center; margin-top: 10px;">
+            <a class="btn" onclick="showToast('', 1000)">{{ message }}</a>
+        </div>
+        {% endif %} {% block content %} {% endblock %}
     </div>
 
 
