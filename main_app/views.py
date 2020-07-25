@@ -9,29 +9,46 @@ from geopy.geocoders import Nominatim
 
 # Create your views here.
 
+
+# Front landing page
 def home(request):
+
     return render(request, template_name="main_app/index.html", context={'logout': "no",})
 
+
+# Information on the platform
 def platform_info(request):
+
     return render(request, template_name="main_app/platformInfo.html", context={"logout": "no",})
 
+
+# Covid info page
 def covid_info(request):
+
     return render(request, template_name="main_app/covidInfo.html", context={"logout": "no",})
 
+
+# Display login page
 def login_page(request):
+
     context = {
         'login': True,
         'logout': "no",
     }
     return render(request, template_name="main_app/login.html", context=context)
 
+
+# Display signup page
 def signup_page(request):
+
     context = {
         'login': False,
         "logout": "no",
     }
     return render(request, template_name="main_app/login.html", context=context)
 
+
+# Create a new account for user
 def create_account(request):
 
     email = request.POST.get('unregisteredEmail')
@@ -40,7 +57,7 @@ def create_account(request):
     category = request.POST.get('category')
 
     if User.objects.filter(email=email).first() is None:
-        # works
+        # user does not exist
         user = User.objects.create(name=name, email=email, password=password, category=category)
         context = {
             'login': True,
@@ -57,7 +74,7 @@ def create_account(request):
         return render(request, template_name='main_app/login.html', context=context)
 
 
-
+# Log into the platform
 def login(request):
 
     email = request.POST.get('email')
@@ -83,11 +100,12 @@ def login(request):
     return render(request, template_name='main_app/dashboard.html', context={'category': user.category, 'properties': props, "user": user,})
 
 
+# Search for properties
 def search_result(request):
-    search = request.POST.get('search')
-    # TODO: Search for the other props
 
+    search = request.POST.get('search')
     props = Property.objects.all()
+
     matching_properties = []
     for prop in props:
         if search in prop.number_and_street or search in prop.city or search in prop.state or search in prop.country:
@@ -100,11 +118,15 @@ def search_result(request):
     return render(request, 'main_app/searchResults.html', context=context)
 
 
+# Add property
 def add_property(request):
 
     return render(request, template_name='main_app/addProperty.html')
 
+
+# Save property
 def save_property(request):
+
     owner = request.session['email']
     street = request.POST.get('street')
     city = request.POST.get('city')
@@ -114,6 +136,7 @@ def save_property(request):
     photo = request.FILES.get('image')
     rent = request.POST.get('rent')
     notes = request.POST.get('notes')
+
     if rent == '' or rent is None:
         rent = 0.0
     else:
@@ -124,6 +147,7 @@ def save_property(request):
 
     loc = "media/{}/{}/".format(request.session['email'], prop.pk)
     fs = FileSystemStorage(location=loc)
+
     if photo is not None:
         try:
             list_of_images = os.listdir(loc)
@@ -139,13 +163,13 @@ def save_property(request):
     path = "{}/media/{}/{}/".format(os.getcwd(), request.session['email'], prop.pk)
     img_list =os.listdir(path)
 
-    # TODO: Change this IMMEDIATELY
-    # return render(request, 'main_app/dashboard.html', context={"image_names": img_list, "email": request.session['email'],})
     user = User.objects.filter(email=request.session['email']).first()
     props = Property.objects.filter(owner=request.session['email']).all()
 
     return render(request, template_name='main_app/dashboard.html', context={'category': user.category, 'properties': props, "message": "Your property was added!", "user": user,})
 
+
+# Show information on single property
 def single_property(request, pk):
 
     prop = Property.objects.get(pk=pk)
@@ -154,12 +178,10 @@ def single_property(request, pk):
     path = "{}/media/{}/{}/".format(os.getcwd(), email, pk)
     img_list =os.listdir(path)
     
-    
-    
     return render(request, 'main_app/singleProperty.html', context={"image_names": img_list, "email": email, "property": prop, "key": pk})
 
 
-
+# Logout of the platform
 def logout(request):
     
     request.session.flush()
@@ -169,7 +191,6 @@ def logout(request):
 geolocator = Nominatim(user_agent='my_app')
 
 def find_ll(location_string):
+
     location = geolocator.geocode(location_string)
-    # print(location.address)
     print((location.latitude, location.longitude))
-    # find_ll('195 Fox Valley Center Dr, Aurora, IL 60504')
