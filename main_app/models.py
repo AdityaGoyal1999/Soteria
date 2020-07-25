@@ -25,8 +25,6 @@ class Property(models.Model):
     occupied = models.CharField(max_length=100, null=True)
     rent = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     notes = models.CharField(max_length=200, null=True)
-    # movein = models.DateField(auto_now=False)
-    # mo
 
     def __str__(self):
         return self.owner+"\'s property"
