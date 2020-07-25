@@ -1,0 +1,37 @@
+{% extends 'main_app/base.html' %} {% load static %} {% block import %}
+<link rel="stylesheet" href="{% static 'css/index.css' %}"> {% endblock %} {% block content %}
+<h1 style="text-align: center;">Housing Market Place for the Front Line Workers 👩‍⚕️</h1>
+<br>
+<div id="login-buttons" style="text-align: center;">
+    <a href="{% url 'login' %}" class="waves-effect waves-light btn-large blue">Login</a>
+    <a href="{% url 'signup' %}" class="waves-effect waves-light btn-large">SignUp</a>
+</div>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col s4">
+            <div class="center">
+                <i class="large material-icons" style="color: #EE6E73">local_hospital</i>
+                <p><b><u>Covid warriors</u> <br> Find temporary housing easily.</b></p>
+                <p class="light center">Alongside fighting the pandemic, finding temporary housing shouldn't be a hassle.</p>
+            </div>
+        </div>
+
+        <div class="col s4">
+            <div class="center">
+                <i class="large material-icons" style="color: orange">business</i>
+                <p><b><u>Landlords</u> <br> Do your part by providing housing to the heroes.</b></p>
+                <p class="light center">Have an empty property? Post its ad here. We take care of the sanitization to keep it safe afterwards.</p>
+            </div>
+        </div>
+
+        <div class="col s4">
+            <div class="center">
+                <i class="large material-icons" style="color: blue;">chrome_reader_mode</i>
+                <p><b><u>Ease of Use</u> <br> Flawless and user friendly GUI.</b></p>
+                <p class="light center">We built this with ❤️ to appreciate your bravery.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
