@@ -23,6 +23,9 @@
                 <li><a href="/">Home</a></li>
                 <li><a href="{% url 'platform' %}">Platform Information</a></li>
                 <li><a href="{% url 'covid' %}">Covid Information</a></li>
+                {% if logout != "no" %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% endif %}
             </ul>
         </div>
     </nav>

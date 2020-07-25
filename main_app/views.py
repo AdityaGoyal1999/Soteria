@@ -4,29 +4,29 @@ import requests
 from .models import User, Property, Image
 from django.core.files.storage import FileSystemStorage
 import os
-# from django.contrib.staticfiles.utils import get_files
-# from django.contrib.staticfiles.storage import StaticFilesStorage
 
 # Create your views here.
 
 def home(request):
-    return render(request, template_name="main_app/index.html")
+    return render(request, template_name="main_app/index.html", context={'logout': "no",})
 
 def platform_info(request):
-    return render(request, template_name="main_app/platformInfo.html")
+    return render(request, template_name="main_app/platformInfo.html", context={"logout": "no",})
 
 def covid_info(request):
-    return render(request, template_name="main_app/covidInfo.html")
+    return render(request, template_name="main_app/covidInfo.html", context={"logout": "no",})
 
 def login_page(request):
     context = {
         'login': True,
+        'logout': "no",
     }
     return render(request, template_name="main_app/login.html", context=context)
 
 def signup_page(request):
     context = {
         'login': False,
+        "logout": "no",
     }
     return render(request, template_name="main_app/login.html", context=context)
 
@@ -50,10 +50,10 @@ def create_account(request):
         context = {
             'login': False,
             'message': 'Account already exists',
+            'logout': "no",
         }
         return render(request, template_name='main_app/login.html', context=context)
 
-    # return render(request, template_name="main_app/dashboard.html")
 
 
 def login(request):
@@ -148,5 +148,7 @@ def single_property(request, pk):
 
 
 
-# def logout(request):
-#     pass
+def logout(request):
+    
+    request.session.flush()
+    return render(request, template_name="main_app/index.html", context={"logout": "no",})
