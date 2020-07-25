@@ -1,5 +1,6 @@
 {% extends 'main_app/base.html' %} {% block content %}
 <h1 style="text-align: center;">Dashboard</h1>
+
 {% if category == 'warrior' %}
 <form action="{% url 'results' %}" method="post">
     {% csrf_token %}

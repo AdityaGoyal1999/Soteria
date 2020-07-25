@@ -4,6 +4,8 @@ import requests
 from .models import User, Property, Image
 from django.core.files.storage import FileSystemStorage
 import os
+import geopy
+from geopy.geocoders import Nominatim
 
 # Create your views here.
 
@@ -74,8 +76,11 @@ def login(request):
     if user.category != 'warrior':
         props = Property.objects.filter(owner=email).all()
 
+    # Map
+    print("Toronto")
+    find_ll('321 Bloor Street, Toronto')
 
-    return render(request, template_name='main_app/dashboard.html', context={'category': user.category, 'properties': props,})
+    return render(request, template_name='main_app/dashboard.html', context={'category': user.category, 'properties': props, "user": user,})
 
 
 def search_result(request):
@@ -139,13 +144,13 @@ def save_property(request):
     user = User.objects.filter(email=request.session['email']).first()
     props = Property.objects.filter(owner=request.session['email']).all()
 
-    return render(request, template_name='main_app/dashboard.html', context={'category': user.category, 'properties': props, "message": "Your property was added!",})
+    return render(request, template_name='main_app/dashboard.html', context={'category': user.category, 'properties': props, "message": "Your property was added!", "user": user,})
 
 def single_property(request, pk):
 
     prop = Property.objects.get(pk=pk)
     email = prop.owner
-    
+
     path = "{}/media/{}/{}/".format(os.getcwd(), email, pk)
     img_list =os.listdir(path)
     
@@ -159,3 +164,12 @@ def logout(request):
     
     request.session.flush()
     return render(request, template_name="main_app/index.html", context={"logout": "no",})
+
+
+geolocator = Nominatim(user_agent='my_app')
+
+def find_ll(location_string):
+    location = geolocator.geocode(location_string)
+    # print(location.address)
+    print((location.latitude, location.longitude))
+    # find_ll('195 Fox Valley Center Dr, Aurora, IL 60504')
