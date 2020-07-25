@@ -74,18 +74,8 @@ def login(request):
     if user.category != 'warrior':
         props = Property.objects.filter(owner=email).all()
 
-        path = "{}/media/{}/".format(os.getcwd(), email)
-        prop_images_list = os.listdir(path)
-        # print(prop_images_list, "\n\n\n")
 
-        prop_image_names = []
-        for i in prop_images_list:
-            p = "{}/media/{}/{}/".format(os.getcwd(), email, i)
-            names = os.listdir(p)
-            prop_image_names.append(names[0])
-        print(prop_image_names, "\n\n\n")
-
-    return render(request, template_name='main_app/dashboard.html', context={'category': user.category, 'properties': props, "image_names": prop_image_names,})
+    return render(request, template_name='main_app/dashboard.html', context={'category': user.category, 'properties': props,})
 
 
 def search_result(request):
@@ -121,7 +111,14 @@ def save_property(request):
     loc = "media/{}/{}/".format(request.session['email'], prop.pk)
     fs = FileSystemStorage(location=loc)
     if photo is not None:
-        filename = fs.save(photo.name, photo)
+        try:
+            list_of_images = os.listdir(loc)
+            if list_of_images == []:
+                filename = fs.save("one.png", photo)
+            else:
+                filename = fs.save(photo.name, photo)
+        except FileNotFoundError:
+            filename = fs.save("one.png", photo)
         uploaded_file_url = fs.url(filename)
         
 
@@ -129,7 +126,11 @@ def save_property(request):
     img_list =os.listdir(path)
 
     # TODO: Change this IMMEDIATELY
-    return render(request, 'main_app/singleProperty.html', context={"image_names": img_list, "email": request.session['email'],})
+    # return render(request, 'main_app/dashboard.html', context={"image_names": img_list, "email": request.session['email'],})
+    user = User.objects.filter(email=request.session['email']).first()
+    props = Property.objects.filter(owner=request.session['email']).all()
+
+    return render(request, template_name='main_app/dashboard.html', context={'category': user.category, 'properties': props, "message": "Your property was added!",})
 
 def single_property(request, pk):
 
