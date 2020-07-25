@@ -70,7 +70,7 @@ def login(request):
         return render(request, template_name='main_app/login.html', context=context)
 
     request.session['email'] = email
-    properties = []
+    props = []
     if user.category != 'warrior':
         props = Property.objects.filter(owner=email).all()
 
@@ -80,6 +80,11 @@ def login(request):
 
 def search_result(request):
     search = request.POST.get('search')
+    # TODO: Search for the other props
+
+    # props = Property.objects.all()
+    # print(props)
+
     context = {
         'search': search,
     }
