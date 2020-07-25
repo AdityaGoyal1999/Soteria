@@ -26,10 +26,12 @@
     <div class="col s4">
         <div class="card">
             <div class="card-image">
-                <img src="https://images.mansionglobal.com/im-191825?width=1280">
+                <img src="/media/{{prop.owner}}/{{prop.pk}}/{{ forloop.counter0.image_names }}">
                 <!-- <span class="card-title">Card Title</span> -->
             </div>
             <div class="card-content">
+                <p>{{ image_names.forloop.counter0}}</p>
+                <p>{{ image_names }}</p>
                 <p><b>${{prop.rent}}</b></p>
                 <p>{{prop.number_and_street}},<br>{{prop.city}}, {{prop.country}}.</p>
             </div>

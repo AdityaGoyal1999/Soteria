@@ -74,12 +74,22 @@ def login(request):
     if user.category != 'warrior':
         props = Property.objects.filter(owner=email).all()
 
-    return render(request, template_name='main_app/dashboard.html', context={'category': user.category, 'properties': props,})
+        path = "{}/media/{}/".format(os.getcwd(), email)
+        prop_images_list = os.listdir(path)
+        # print(prop_images_list, "\n\n\n")
+
+        prop_image_names = []
+        for i in prop_images_list:
+            p = "{}/media/{}/{}/".format(os.getcwd(), email, i)
+            names = os.listdir(p)
+            prop_image_names.append(names[0])
+        print(prop_image_names, "\n\n\n")
+
+    return render(request, template_name='main_app/dashboard.html', context={'category': user.category, 'properties': props, "image_names": prop_image_names,})
 
 
 def search_result(request):
     search = request.POST.get('search')
-    # print(search)
     context = {
         'search': search,
     }
@@ -97,18 +107,7 @@ def save_property(request):
     state = request.POST.get('state')
     pincode = request.POST.get('pincode')
     country = request.POST.get('country')
-
     photo = request.FILES.get('image')
-    # print(photo)
-    loc = "media/{}/".format(request.session['email'])
-    fs = FileSystemStorage(location=loc)
-    if photo is not None:
-        filename = fs.save(photo.name, photo)
-        uploaded_file_url = fs.url(filename)
-        # print(uploaded_file_url,"\n\n\n")
-
-    # movein = request.POST.get('movein')
-    # moveout = request.POST.get('moveout')
     rent = request.POST.get('rent')
     notes = request.POST.get('notes')
     if rent == '' or rent is None:
@@ -119,21 +118,27 @@ def save_property(request):
     prop = Property.objects.create(owner=owner,number_and_street=street, pincode=pincode, city=city, state=state, country=country, rent=rent, notes=notes)
     img = Image.objects.create(post=prop, photo=photo)
 
-    path = "{}/media/{}/".format(os.getcwd(), request.session['email'])
+    loc = "media/{}/{}/".format(request.session['email'], prop.pk)
+    fs = FileSystemStorage(location=loc)
+    if photo is not None:
+        filename = fs.save(photo.name, photo)
+        uploaded_file_url = fs.url(filename)
+        
+
+    path = "{}/media/{}/{}/".format(os.getcwd(), request.session['email'], prop.pk)
     img_list =os.listdir(path)
 
-    # TODO: Change this
+    # TODO: Change this IMMEDIATELY
     return render(request, 'main_app/singleProperty.html', context={"image_names": img_list, "email": request.session['email'],})
 
 def single_property(request, pk):
 
-    path = "{}/media/{}/".format(os.getcwd(), request.session['email'])
+    path = "{}/media/{}/{}/".format(os.getcwd(), request.session['email'], pk)
     img_list =os.listdir(path)
     
     prop = Property.objects.get(pk=pk)
-    # print(prop)
     
-    return render(request, 'main_app/singleProperty.html', context={"image_names": img_list, "email": request.session['email'], "property": prop,})
+    return render(request, 'main_app/singleProperty.html', context={"image_names": img_list, "email": request.session['email'], "property": prop, "key": pk})
 
 
 
