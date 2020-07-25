@@ -1,5 +1,7 @@
 # Soteria
 
+[![Build Status](https://travis-ci.org/AdityaGoyal1999/SigmaHacks.svg?branch=master)](https://travis-ci.org/AdityaGoyal1999/SigmaHacks)
+
 Soteria is a Full stack django web application.
 
 ### 🚀 Running the app:
