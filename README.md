@@ -16,7 +16,7 @@ python manage.py runserver
 
 ### 💻 Note for Developers
 
-The web app is rigorously documented and follow all the conventions of django. Moreover, to add to the reliability of the project, it is thoroughly tested using CI/CD with Travis-CI. The file structure is as follows:<br>
+The web app is rigorously documented and follow all the conventions of django. Moreover, to add to the reliability of the project, it is thoroughly tested using Continuous Integration/CD with Travis-CI. The file structure is as follows:<br>
 
     .
     ├── main_app/                  # Django app that contains main info for web app
