@@ -8,6 +8,7 @@
       </button>
 </form>
 <h2 style="text-align: center;">{{ search | title }}</h2>
+{% if search == 'Toronto' %}
 <script src="https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.js">
 </script>
 <link href="https://api.mapbox.com/mapbox-gl-js/v1.11.1/mapbox-gl.css" rel="stylesheet" />
@@ -157,6 +158,14 @@
         </div>
     </div>
 </div>
+{% else %}
+<div class="row">
+    <div class="col s12">
+        <h3 style="text-align: center;">We counldn't find locations on the map 😶</h3>
+    </div>
+</div>
+
+{% endif %}
 <div class="row">
     {% for prop in properties %}
     <div class="col s4">
