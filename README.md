@@ -45,5 +45,5 @@ The web app is rigorously documented and follow all the conventions of django. M
 
 ### 🗣 Contributors
 
-This is a project under Sigma Hacks 2020.
-Aditya Goyal, Turja Chowdhury, Roan Numa, Ankitha 
+We would love to have other people to collaborate with us on this project. 
+Created by - <a href="https://www.linkedin.com/in/adi-goyal/">Aditya Goyal</a>, Turja Chowdhury, Roan Numa, Ankitha.
